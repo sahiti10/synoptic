@@ -1,0 +1,1 @@
+"""Synoptic source package."""

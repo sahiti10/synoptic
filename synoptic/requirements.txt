@@ -1,0 +1,11 @@
+# Synoptic intentionally has NO third-party dependencies.
+#
+# Everything is built on the Python standard library:
+#   sqlite3   -> storage (replaces PostgreSQL/PostGIS)
+#   urllib    -> HTTP calls to NWS + Mastodon (replaces `requests`)
+#   json      -> parsing GeoJSON / API responses
+#   math      -> geospatial math (replaces GeoPandas/Shapely)
+#   html      -> escaping dashboard output
+#   argparse, webbrowser, datetime, re, contextlib -> CLI + plumbing
+#
+# Requirement: Python 3.8+ (nothing else). `pip install` is not needed.

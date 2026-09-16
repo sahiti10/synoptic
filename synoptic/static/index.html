@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synoptic — Live Weather Alerts</title>
+<meta name="description" content="Real-time weather alerts, impact analysis, and outage risk for your area — free and open, runs locally.">
+<meta name="theme-color" content="#0f1c30">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to alerts and map</a>
+
+<div id="boot-banner" role="status">
+  <p><strong>Connecting to your local Synoptic server…</strong></p>
+  <p id="boot-banner-detail">
+    If this message doesn't disappear in a few seconds, the server isn't running.
+    Open a terminal in the <code>synoptic</code> folder and run:
+  </p>
+  <pre>python main.py --serve</pre>
+  <p>Then reload this page — or just let <code>--serve</code> open it for you automatically.</p>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <img src="icon.svg" alt="" width="28" height="28">
+    <span>Synoptic</span>
+  </div>
+
+  <form class="search-form" id="search-form" role="search">
+    <label for="location-input" class="visually-hidden">Search a city or state</label>
+    <input type="text" id="location-input" list="location-options" placeholder="Search a city, e.g. Austin, TX" autocomplete="off">
+    <datalist id="location-options"></datalist>
+    <button type="button" class="icon-btn" id="geo-btn" title="Use my current location" aria-label="Use my current location">📍</button>
+  </form>
+
+  <div class="topbar-right">
+    <span class="live-badge" id="live-badge" aria-live="polite">
+      <span class="live-dot" id="live-dot"></span>
+      <span id="live-text">Connecting…</span>
+    </span>
+    <button class="icon-btn" id="refresh-btn" title="Refresh now" aria-label="Refresh now">⟳ Refresh</button>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-label">CONDITIONS FOR</p>
+      <p class="hero-place" id="hero-place">Loading your area…</p>
+      <p class="hero-status" id="hero-status">—</p>
+      <p class="hero-sub" id="hero-sub">Checking live NWS alerts for your area.</p>
+    </div>
+    <div class="hero-actions">
+      <button class="icon-btn primary" id="notify-btn">🔔 Enable alert notifications</button>
+      <button class="icon-btn" id="install-btn" hidden>⬇ Install app</button>
+    </div>
+  </div>
+</section>
+
+<nav class="chip-row" id="chip-row" aria-label="Filter alerts"></nav>
+
+<main id="main" class="layout">
+  <aside class="sidebar" aria-label="Alert list">
+    <h2 id="sidebar-heading">ALERTS</h2>
+    <ul class="alert-list" id="alert-list"></ul>
+  </aside>
+
+  <section class="map-panel" aria-label="Alert map">
+    <h2>WHERE IT'S HAPPENING — click an alert or a state to zoom in</h2>
+    <div class="map-frame">
+      <svg id="us-map" viewBox="0 0 720 420" role="img" aria-label="Map of the United States colored by active weather alert severity"></svg>
+      <div class="map-controls">
+        <button id="zoom-in" aria-label="Zoom in">+</button>
+        <button id="zoom-out" aria-label="Zoom out">−</button>
+        <button id="zoom-reset" aria-label="Reset map view">⤾</button>
+      </div>
+      <div class="map-legend" aria-hidden="true">
+        <span><span class="swatch" style="background:var(--extreme)"></span>Extreme</span>
+        <span><span class="swatch" style="background:var(--severe)"></span>Severe</span>
+        <span><span class="swatch" style="background:var(--moderate)"></span>Moderate</span>
+        <span><span class="swatch" style="background:var(--minor)"></span>Minor</span>
+        <span><span class="swatch" style="background:var(--sky-800)"></span>No alerts</span>
+      </div>
+      <div class="map-popover" id="map-popover">
+        <button class="close-btn" id="popover-close" aria-label="Close">✕</button>
+        <h3 id="popover-title"></h3>
+        <p id="popover-area"></p>
+        <p id="popover-time"></p>
+        <p id="popover-outage"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toast-region" id="toast-region" aria-live="assertive"></div>
+
+<footer>
+  Synoptic runs entirely on your machine — Python standard library only, no installs.
+  Data: <a href="https://www.weather.gov/documentation/services-web-api" target="_blank" rel="noopener">National Weather Service</a>
+  &amp; public Mastodon hashtag timelines. Outage figures are a simulation, not an official utility estimate.
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
